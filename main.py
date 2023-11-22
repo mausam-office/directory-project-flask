@@ -157,41 +157,25 @@ def download(project_name, version):
     filename = f'update_v{wanted_version}.bin'
     return send_from_directory(project_dir, filename)
 
+@app.post('/check')
+def check():
+    project_dir = request.form.get('dir')
 
-# # @app.get('/download')     # call http://127.0.0.1:8000/download?project_name=d&version=v0
-# @app.get('/download/{project_name}/{version}')      # call http://127.0.0.1:8000/download/project_name/version
-# def download(project_name:str, version:str):
-#     '''downloads project file for requested version'''
-#     file_location = os.path.join(ROOT_DIR, project_name, "update.txt")
-
-#     # update.txt filepath validation
-#     try:
-#         assert os.path.exists(file_location)
-#         assert os.path.isfile(file_location)
-#     except AssertionError as e:
-#         return "Please check the project path."
+    project_vc = os.path.join(project_dir, 'update.txt')
+    if os.path.exists(project_vc) and os.path.isfile(project_vc):
+        available_version = latest_version(project_vc)
+        msg = f"Stored version is {available_version}"
+    else:
+        msg = "No stored version"
+        
+    # scans for directories in project directory
+    directories = fast_scandir(ROOT_DIR)
     
-#     # requested version validation
-#     # wanted_version = version[1:] if version.isalnum() else version if version.isnumeric() else None
-#     try:
-#         assert version.isalnum()
-#         assert version.startswith('v')
-#         wanted_version = version[1:]
-#         assert wanted_version.isnumeric()
-#         wanted_version = int(wanted_version)
-#     except Exception as e:
-#         print(f"{e = }")
-#         return 'Erorr occured: '+str(e)
-
-#     # bin filename and filepath formation
-#     file_name = f"update_v{wanted_version}.bin"
-#     file_location = os.path.join(ROOT_DIR, project_name, file_name)
-
-#     # download if filepath indicates file and it exists
-#     if os.path.exists(file_location) and os.path.isfile(file_location):
-#         return FileResponse(file_location, media_type='application/octet-stream', filename=file_name)
-    
-#     return "Requested file not available"
+    return render_template(
+            'dirManager.html',
+            directories=directories,
+            version_msg=msg
+        )
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')

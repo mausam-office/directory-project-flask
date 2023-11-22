@@ -8,7 +8,7 @@
     <h1><b>Welcome to Directory Manager</b></h1>
 
     <div>
-        <div style="background-color: magenta; width: 44%; height: 120px; float:left;; padding-left: 2%;">  
+        <div style="background-color: magenta; width: 28%; height: 120px; float:left;; padding-left: 2%;">  
             <form action="/create" method="post" style="padding-top: 5px;">
                 <label for="dirName">Enter New Directory Name.</label>
                 <br><br>
@@ -19,7 +19,22 @@
             <p style="color: yellow; padding-left: 2%;">{{ created }}</p>
         </div>
 
-        <div style="background-color: yellow; width:44%; height: 180px; float:left;">  
+        <div style="background-color: aqua; width:30%; height: 120px; float:left;">  
+            <form action="/check" method="post" style="padding-top: 5px; padding-left: 2%;">
+                <label for="dir">Select Directory1</label><br>
+                <!-- <input type="text" id="selectDir" name="selectDir"> -->
+                <select id="dir" name="dir">
+                    {% for directory in directories %}
+                    <option value="{{directory}}">{{directory}}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+                <button type="submit">Check version</button>
+            </form>
+            <p style="color: magenta; padding-left: 2%;">{{ version_msg }}</p>
+        </div>
+
+        <div style="background-color: yellow; width:30%; height: 205px; float:left;">  
             <form action="/upload" method="post" enctype="multipart/form-data" style="padding-top: 5px; padding-left: 2%;">
                 <label for="selectDir">Select Directory</label><br>
                 <!-- <input type="text" id="selectDir" name="selectDir"> -->
