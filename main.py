@@ -121,7 +121,7 @@ def upload():
             uploaded=msg
         )
 
-@app.get("/version/<project_name>")
+@app.get("/version/<path:project_name>")
 def get_version(project_name):
     '''Returns the latest version'''
     project_vc = os.path.join(ROOT_DIR, project_name, 'update.txt')
