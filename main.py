@@ -154,7 +154,7 @@ def download(project_name, version):
         return {'Erorr':str(e)}
     
     project_dir = os.path.join(ROOT_DIR, project_name)
-    filename = f'update_v{version}.bin'
+    filename = f'update_v{wanted_version}.bin'
     return send_from_directory(project_dir, filename)
 
 
