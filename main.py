@@ -96,7 +96,7 @@ def upload():
 
     # also upload when there is no version
     paths = os.listdir(selectDir)
-    paths = [path for path in paths if os.path.isfile(path)]
+    paths = [path for path in paths if os.path.isfile(os.path.join(selectDir, path))]
     if not paths:
         update = True
 
